@@ -16,6 +16,7 @@ python3 HumanReferenceGenome_DownloadAndIndexing.py -g https://ftp.ensembl.org/p
 - To test this script, I use download the <b>chromosome 1</b> of the <b>human genome</b>
 
 - The execution of the previous command generate the next outputs:
+- <br>
   <b>The reference genome for chromosome 1</b>
    - HS.Chr1.fa.gz
 
