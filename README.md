@@ -13,3 +13,15 @@ The program `HumanReferenceGenome_DownloadAndIndexing.py` download the human ref
 python3 HumanReferenceGenome_DownloadAndIndexing.py -g https://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz -o HS.Chr1.fa.gz
 
 ```
+- To test this script, I use download the <b>chromosome 1</b> of the <b>human genome</b>
+
+- The execution of the previous command generate the next outputs:
+  <b>The reference genome for chromosome 1</b>
+   - HS.Chr1.fa.gz
+
+  <b>The index files for the given sequence</b>
+   - HS.Chr1.fa.gz.bwt
+   - HS.Chr1.fa.gz.pac
+   - HS.Chr1.fa.gz.ann
+   - HS.Chr1.fa.gz.amb
+   - HS.Chr1.fa.gz.sa
