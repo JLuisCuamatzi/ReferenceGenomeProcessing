@@ -22,8 +22,8 @@ python3 HumanReferenceGenome_DownloadAndIndexing.py -g https://ftp.ensembl.org/p
 <br>
   <b>The index files for the given sequence</b>
   <br>
-   - HS.Chr1.fa.gz.bwt
-   - HS.Chr1.fa.gz.pac
-   - HS.Chr1.fa.gz.ann
-   - HS.Chr1.fa.gz.amb
-   - HS.Chr1.fa.gz.sa
+   - HS.Chr1.fa.gz.bwt<br>
+   - HS.Chr1.fa.gz.pac<br>
+   - HS.Chr1.fa.gz.ann<br>
+   - HS.Chr1.fa.gz.amb<br>
+   - HS.Chr1.fa.gz.sa<br>
