@@ -92,3 +92,116 @@ if __name__ == "__main__":
 
 
 # python script.py -input sample.cram -cram_fwd forward.cram -cram_rev reverse.cram -prefix sample_prefix -bed regions.bed
+
+
+
+
+
+
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import gzip
+
+# Datos simulados
+data_both = """chrom\tpos\tdepth
+chr1\t1\t25
+chr1\t2\t30
+chr1\t3\t20
+chr2\t1\t15
+chr2\t2\t10
+chr3\t1\t5
+chr3\t2\t10
+"""
+
+data_forward = """chrom\tpos\tdepth
+chr1\t1\t15
+chr1\t2\t20
+chr1\t3\t10
+chr2\t1\t5
+chr2\t2\t5
+chr3\t1\t2
+chr3\t2\t5
+"""
+
+data_reverse = """chrom\tpos\tdepth
+chr1\t1\t10
+chr1\t2\t10
+chr1\t3\t10
+chr2\t1\t10
+chr2\t2\t5
+chr3\t1\t3
+chr3\t2\t5
+"""
+
+# Función para escribir datos en archivos gzip
+def write_gzip_file(filename, data):
+    with gzip.open(filename, "wt") as f:
+        f.write(data)
+
+# Crear archivos simulados
+write_gzip_file("DepthCoverage.BothStrands.Q00.txt.gz", data_both)
+write_gzip_file("DepthCoverage.ForwardStrand.Q00.txt.gz", data_forward)
+write_gzip_file("DepthCoverage.ReverseStrand.Q00.txt.gz", data_reverse)
+os.getcwd()
+
+# Función para calcular la media de cobertura
+def calculate_mean_coverage(file):
+    """
+    Calcula la cobertura promedio por cromosoma desde un archivo comprimido.
+    """
+    df = pd.read_csv(file, sep="\t", compression="gzip")
+    mean_coverage = df.groupby("chrom")["depth"].mean().reset_index()
+    mean_coverage.columns = ["chrom", "mean_depth"]
+    return mean_coverage
+
+# Función para generar el boxplot
+def plot_coverage(means, output_file, sample_prefix):
+    """
+    Genera un boxplot comparativo de la cobertura media por cromosoma.
+    """
+    categories = list(means.keys())
+    data = [means[cat]["mean_depth"] for cat in categories]
+
+    plt.figure(figsize=(12, 6))
+    plt.boxplot(data, labels=categories)
+    plt.title(
+        f"Comparative Analysis of Coverage by Strand Bias in sample: {sample_prefix}\n"
+        f"Mean depth both strands: {data[0].mean():.2f}, "
+        f"Mean depth forward strands: {data[1].mean():.2f}, "
+        f"Mean depth reverse strands: {data[2].mean():.2f}"
+    )
+    plt.xlabel("Strand")
+    plt.ylabel("Mean Coverage")
+    plt.savefig(output_file)
+    plt.close()
+
+# Archivos de datos simulados
+files = {
+    "BothStrands": "DepthCoverage.BothStrands.Q00.txt.gz",
+    "ForwardStrand": "DepthCoverage.ForwardStrand.Q00.txt.gz",
+    "ReverseStrand": "DepthCoverage.ReverseStrand.Q00.txt.gz"
+}
+
+# Cálculo de medias
+means = {key: calculate_mean_coverage(file) for key, file in files.items()}
+
+# Generar boxplot
+sample_prefix = "TestSample"
+plot_coverage(
+    means,
+    output_file=f"{sample_prefix}_CoveragePlot.Q00.png",
+    sample_prefix=sample_prefix
+)
+
+print(f"Boxplot generado: {sample_prefix}_CoveragePlot.Q00.png")
+
+
+
+
+
+
+
